@@ -1,65 +1,84 @@
 import streamlit as st
-from answerer import DocAnswerer
-
-st.set_page_config(
-    page_title="Docker Doc Assistant (BDA)",
-    layout="wide"
+from technology_answerers import (
+    DockerAnswerer, CAnswerer, CPPAnswerer,
+    CSharpAnswerer, GoAnswerer, KubernetesAnswerer
 )
 
-st.title("🐳 BackendDocAssistant (BDA)")
-st.write("針對 Docker 官方文件的版本感知檢索助手（基於 Perplexity Sonar）")
+st.set_page_config(
+    page_title="BackendDocAssistant (BDA)",
+    page_icon="🚀",
+    layout="wide",
+)
 
+st.title("🚀 BackendDocAssistant (BDA)")
+st.write("官方文件智能檢索 - 基於 Perplexity Sonar API")
 
-@st.cache_resource
-def get_answerer():
-    return DocAnswerer()
+TECHNOLOGIES = {
+    "🐳 Docker": DockerAnswerer,
+    "🔤 C": CAnswerer,
+    "⬆️ C++": CPPAnswerer,
+    "#️⃣ C#": CSharpAnswerer,
+    "🐹 Go": GoAnswerer,
+    "☸️ Kubernetes": KubernetesAnswerer,
+}
 
-
-# 側邊欄：版本選擇（從 v0.6.7 到 v29.0）
+# 側邊欄
 with st.sidebar:
-    st.header("查詢設定")
+    st.header("⚙️ 查詢設定")
 
-    # Docker 版本列表（依你提供的 deprecated 表格）
-    versions = [
-        "latest", "v29.0", "v28.4", "v28.3", "v28.2", "v28.0",
-        "v27.0", "v26.0", "v25.0", "v24.0", "v23.0", "v20.10",
-        "v19.03", "v18.09", "v18.06", "v17.12", "v17.10", "v17.09",
-        "v17.06", "v17.05", "v1.13", "v1.12", "v1.11", "v1.10",
-        "v1.9", "v1.8", "v1.6", "v0.10", "v0.6.7"
-    ]
-
-    version = st.selectbox(
-        "Docker 版本",
-        versions,
-        index=0,
+    selected_tech_name = st.selectbox(
+        "選擇技術棧",
+        list(TECHNOLOGIES.keys()),
     )
 
-    st.info(f"目前選擇：{version}")
+    selected_tech_class = TECHNOLOGIES[selected_tech_name]
+    versions = selected_tech_class().get_versions()
 
-# 主區：輸入問題
-question = st.text_input(
-    "請輸入你的問題：",
-    placeholder="例如：Docker BuildKit 要如何啟用？"
+    if selected_tech_name == "#️⃣ C#":
+        version_display = [f"{c} + {d}" for c, d in versions]
+        selected_idx = st.selectbox("版本選擇", range(len(version_display)),
+                                    format_func=lambda i: version_display[i])
+        selected_version = versions[selected_idx]
+    else:
+        selected_version = st.selectbox("版本選擇", versions)
+
+    st.info(f"📌 已選擇：{selected_tech_name} {selected_version}")
+
+# 主區域
+question = st.text_area(
+    "輸入你的問題",
+    placeholder="例如：如何在 Docker 中使用 BuildKit？",
+    height=100
 )
 
 if st.button("🔍 查詢官方文件", type="primary"):
     if not question.strip():
-        st.warning("請先輸入問題。")
+        st.warning("⚠️ 請先輸入問題。")
     else:
-        with st.spinner("查詢中，請稍候..."):
-            answerer = get_answerer()
-            result = answerer.answer(question.strip(), version=version)
+        with st.spinner(f"查詢 {selected_tech_name} 官方文件中..."):
+            try:
+                answerer = TECHNOLOGIES[selected_tech_name]()
+                result = answerer.answer(question.strip(), version=selected_version)
 
-        # 顯示回答
-        st.subheader("AI 回答")
-        st.markdown(result["answer"])
+                # 顯示回答
+                st.markdown("---")
+                st.subheader("💬 AI 回答")
+                st.markdown(result["answer"])
 
-        # 顯示來源文件（滾動視窗）
-        st.subheader("參考來源")
-        if not result["sources"]:
-            st.write("未找到額外來源連結（可能已在回答中引用）。")
-        else:
-            # 用滾動區塊顯示多個來源
-            with st.container():
-                for i, url in enumerate(result["sources"], start=1):
-                    st.markdown(f"[{i}] [{url}]({url})")
+                # 顯示來源
+                st.markdown("---")
+                st.subheader("📚 參考來源")
+
+                if result["sources"]:
+                    for i, url in enumerate(result["sources"], 1):
+                        st.markdown(f"[{i}] [{url}]({url})")
+                else:
+                    st.info("ℹ️ 來源已在回答中標註")
+
+            except Exception as e:
+                st.error(f"❌ 查詢失敗：{str(e)}")
+
+st.markdown("---")
+st.markdown(
+    "<div style='text-align: center; color: #888;'>🔧 BackendDocAssistant (BDA) | 基於 Perplexity Sonar API</div>",
+    unsafe_allow_html=True)
