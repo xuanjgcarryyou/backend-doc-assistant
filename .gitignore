@@ -1,0 +1,22 @@
+# Python 虛擬環境
+venv/
+.venv/
+
+# Python 編譯產物
+__pycache__/
+*.pyc
+
+# IDE 設定（PyCharm）
+.idea/
+
+# 資料檔案（可以不放上 GitHub）
+docker_docs.csv
+docker.index
+passages.pkl
+
+# 環境變數 / 金鑰
+.env
+
+# 作業系統
+.DS_Store
+Thumbs.db
