@@ -1,0 +1,604 @@
+{
+  "evaluation_dataset": [
+    {
+      "question_id": "Q1",
+      "question": "Docker Compose 怎麼設定 volume？",
+      "passages": [
+        {
+          "passage_id": "D_VOL_001",
+          "content": "volumes: db-data: driver: foobar driver_opts: type: 'nfs' o: 'addr=10.40.0.199,nolock,soft,rw' device: ':/docker/example' external: false labels: com.example.description: 'Database volume'",
+          "relevance": 5,
+          "url": "https://docs.docker.com/reference/compose-file/volumes/"
+        },
+        {
+          "passage_id": "D_VOL_002",
+          "content": "Named volumes vs anonymous volumes; lifecycle management. Named volumes persist data, anonymous volumes are temporary.",
+          "relevance": 4,
+          "url": "https://docs.docker.com/engine/storage/volumes/"
+        },
+        {
+          "passage_id": "D_VOL_003",
+          "content": "volumes: myapp:/home/node/app within services section for mounting volumes to containers",
+          "relevance": 4,
+          "url": "https://kinsta.com/blog/docker-compose-volumes/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q2",
+      "question": "Docker multi-stage build 怎麼寫？",
+      "passages": [
+        {
+          "passage_id": "D_MSB_001",
+          "content": "FROM golang:1.24 AS build + COPY --from=builder for multi-stage builds to reduce image size",
+          "relevance": 5,
+          "url": "https://docs.docker.com/build/building/multi-stage/"
+        },
+        {
+          "passage_id": "D_MSB_002",
+          "content": ".NET 8 multi-stage example for reducing image size with multiple FROM statements",
+          "relevance": 5,
+          "url": "https://vivasoftltd.com/dockerize-asp-net-core-8-app-with-sql-server/"
+        },
+        {
+          "passage_id": "D_MSB_003",
+          "content": "Named stages and --target flag usage for building specific stages",
+          "relevance": 5,
+          "url": "https://docs.docker.com/build/building/multi-stage/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q3",
+      "question": "Docker Compose 怎麼設定 network？",
+      "passages": [
+        {
+          "passage_id": "D_NET_001",
+          "content": "networks: frontend/backend: driver: bridge for custom network definitions in docker-compose.yml",
+          "relevance": 5,
+          "url": "https://docs.docker.com/compose/how-tos/networking/"
+        },
+        {
+          "passage_id": "D_NET_002",
+          "content": "Default {project}_default network is created automatically for service discovery",
+          "relevance": 5,
+          "url": "https://docs.docker.com/compose/how-tos/networking/"
+        },
+        {
+          "passage_id": "D_NET_003",
+          "content": "Service discovery by service name allows containers to communicate using service names as hostnames",
+          "relevance": 4,
+          "url": "https://kinsta.com/blog/docker-compose-networking-guide/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q4",
+      "question": ".NET 8 在 Docker 裡怎麼連 SQL Server？",
+      "passages": [
+        {
+          "passage_id": "D_DOTNET_001",
+          "content": "Server=sqlserver,1433; TrustServerCertificate=True; connection string for SQL Server in docker-compose",
+          "relevance": 5,
+          "url": "https://vivasoftltd.com/dockerize-asp-net-core-8-app-with-sql-server/"
+        },
+        {
+          "passage_id": "D_DOTNET_002",
+          "content": "Service name resolution in docker-compose network allows ASP.NET Core to connect using service name",
+          "relevance": 5,
+          "url": "https://www.twilio.com/en-us/blog/containerize-your-aspdotnet-core-application-and-sql-server"
+        },
+        {
+          "passage_id": "D_DOTNET_003",
+          "content": ".NET containerization best practices including error handling and connection pooling",
+          "relevance": 4,
+          "url": "https://learn.microsoft.com/en-us/dotnet/core/docker/build-container"
+        }
+      ]
+    },
+    {
+      "question_id": "Q5",
+      "question": "Docker 怎麼 build 多架構的 image？",
+      "passages": [
+        {
+          "passage_id": "D_BX_001",
+          "content": "docker buildx build --platform linux/amd64,linux/arm64 --push for multi-architecture builds",
+          "relevance": 5,
+          "url": "https://www.docker.com/blog/how-to-rapidly-build-multi-architecture-images-with-buildx/"
+        },
+        {
+          "passage_id": "D_BX_002",
+          "content": "docker buildx create --use to setup builder and specify platforms for cross-platform builds",
+          "relevance": 5,
+          "url": "https://learn.arm.com/learning-paths/cross-platform/docker/buildx/"
+        },
+        {
+          "passage_id": "D_BX_003",
+          "content": "BuildKit configuration with --load vs --push options for local or remote image storage",
+          "relevance": 5,
+          "url": "https://docs.docker.com/build/building/multi-platform/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q6",
+      "question": "Kubernetes 怎麼用 ConfigMap 設定環境變數？",
+      "passages": [
+        {
+          "passage_id": "K_CM_001",
+          "content": "env: valueFrom: configMapKeyRef: name: key: for injecting ConfigMap values as environment variables",
+          "relevance": 5,
+          "url": "https://www.baeldung.com/ops/kubernetes-configmaps-secrets"
+        },
+        {
+          "passage_id": "K_CM_002",
+          "content": "envFrom: configMapRef: name: syntax to load all ConfigMap keys as environment variables",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+        },
+        {
+          "passage_id": "K_CM_003",
+          "content": "Four consumption methods for ConfigMap with 1MiB size limit per ConfigMap",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q7",
+      "question": "Kubernetes 怎麼設定 CPU 跟記憶體限制？",
+      "passages": [
+        {
+          "passage_id": "K_RES_001",
+          "content": "resources: requests: memory: '64Mi' cpu: '250m' for minimum guaranteed resources",
+          "relevance": 5,
+          "url": "https://spacelift.io/blog/kubernetes-deployment-yaml"
+        },
+        {
+          "passage_id": "K_RES_002",
+          "content": "CPU in millicores (m); memory in bytes with suffixes (Mi, Gi); limits for maximum allowed",
+          "relevance": 5,
+          "url": "https://octopus.com/devops/kubernetes-deployments/kubernetes-yaml/"
+        },
+        {
+          "passage_id": "K_RES_003",
+          "content": "Requests vs Limits distinction: requests for scheduling, limits for enforcement",
+          "relevance": 4,
+          "url": "https://codefresh.io/learn/kubernetes-deployment/kubernetes-deployment-yaml/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q8",
+      "question": "Kubernetes Pod 的 liveness probe 怎麼設定？",
+      "passages": [
+        {
+          "passage_id": "K_PROBE_001",
+          "content": "livenessProbe: httpGet: path: /healthz port: 8080 with initialDelaySeconds and periodSeconds parameters",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/"
+        },
+        {
+          "passage_id": "K_PROBE_002",
+          "content": "Three probe types: liveness (restart if unhealthy), readiness (remove from service), startup (initial delay)",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/"
+        },
+        {
+          "passage_id": "K_PROBE_003",
+          "content": "Parameter meanings: failureThreshold, timeoutSeconds, exec probe for custom commands",
+          "relevance": 5,
+          "url": "https://www.geeksforgeeks.org/devops/how-to-use-kubernetes-liveness-and-readiness-probes/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q9",
+      "question": "Kubernetes Secret 跟 ConfigMap 的差異是什麼？",
+      "passages": [
+        {
+          "passage_id": "K_VS_001",
+          "content": "ConfigMap: plaintext (data field) vs Secret: base64 encoded for confidential data",
+          "relevance": 5,
+          "url": "https://www.baeldung.com/ops/kubernetes-configmaps-secrets"
+        },
+        {
+          "passage_id": "K_VS_002",
+          "content": "ConfigMap for non-confidential data only with 1MiB limit and no encryption",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        },
+        {
+          "passage_id": "K_VS_003",
+          "content": "Secret for passwords, tokens, certificates with optional encryption at rest",
+          "relevance": 4,
+          "url": "https://kubernetes.io/docs/concepts/configuration/secret/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q10",
+      "question": "Kubernetes 怎麼把 Secret 掛載成檔案？",
+      "passages": [
+        {
+          "passage_id": "K_SEC_VOL_001",
+          "content": "volumes: secret: secretName: with volumeMounts to mount Secret as files",
+          "relevance": 5,
+          "url": "https://www.baeldung.com/ops/kubernetes-configmaps-secrets"
+        },
+        {
+          "passage_id": "K_SEC_VOL_002",
+          "content": "items field to select specific keys and defaultMode for file permissions",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/concepts/configuration/secret/"
+        },
+        {
+          "passage_id": "K_SEC_VOL_003",
+          "content": "readOnly: true recommended for security of mounted Secret files",
+          "relevance": 4,
+          "url": "https://kubernetes.io/docs/concepts/configuration/secret/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q11",
+      "question": "Kubernetes StatefulSet 的 volume 怎麼設定？",
+      "passages": [
+        {
+          "passage_id": "K_SS_001",
+          "content": "volumeClaimTemplates: for automatic PVC creation per pod in StatefulSet",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/"
+        },
+        {
+          "passage_id": "K_SS_002",
+          "content": "Auto-created PVC names follow pattern: {name}-{volumeName}-{ordinal} like mysql-data-0",
+          "relevance": 5,
+          "url": "https://devopsvoyager.hashnode.dev/volumeclaimtemplates-in-kubernetes-statefulsets"
+        },
+        {
+          "passage_id": "K_SS_003",
+          "content": "Deployment vs StatefulSet: Deployment shares PVC, StatefulSet auto-creates per pod",
+          "relevance": 5,
+          "url": "https://akomljen.com/kubernetes-persistent-volumes-with-deployment-and-statefulset/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q12",
+      "question": "Kubernetes Ingress 怎麼設定 HTTPS？",
+      "passages": [
+        {
+          "passage_id": "K_ING_TLS_001",
+          "content": "spec: tls: hosts: secretName: in Ingress YAML for TLS configuration",
+          "relevance": 5,
+          "url": "https://kubernetes.github.io/ingress-nginx/user-guide/tls/"
+        },
+        {
+          "passage_id": "K_ING_TLS_002",
+          "content": "Create TLS Secret with kubernetes.io/tls type containing certificate and private key",
+          "relevance": 5,
+          "url": "https://www.kubeblogs.com/how-to-set-an-nginx-ingress-with-a-tls-ssl-certificate"
+        },
+        {
+          "passage_id": "K_ING_TLS_003",
+          "content": "cert-manager integration for automatic certificate renewal and provisioning",
+          "relevance": 4,
+          "url": "https://cert-manager.io/docs/usage/ingress/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q13",
+      "question": "Go 專案的 go.mod 檔案怎麼用？",
+      "passages": [
+        {
+          "passage_id": "G_MOD_001",
+          "content": "require, replace, exclude, retract directives in go.mod for dependency management",
+          "relevance": 5,
+          "url": "https://go.dev/doc/modules/gomod-ref"
+        },
+        {
+          "passage_id": "G_MOD_002",
+          "content": "Module resolution and version selection following semantic versioning rules",
+          "relevance": 5,
+          "url": "https://go.dev/ref/mod"
+        },
+        {
+          "passage_id": "G_MOD_003",
+          "content": "go.mod vs go.sum: go.mod declares requirements, go.sum stores checksums for reproducibility",
+          "relevance": 5,
+          "url": "https://faun.pub/understanding-go-mod-and-go-sum-5fd7ec9bcc34"
+        }
+      ]
+    },
+    {
+      "question_id": "Q14",
+      "question": "Go 的 go mod tidy 跟 go mod vendor 差在哪？",
+      "passages": [
+        {
+          "passage_id": "G_VEND_001",
+          "content": "go mod tidy: cleanup unused dependencies. go mod vendor: copy all deps to vendor directory",
+          "relevance": 5,
+          "url": "https://victoriametrics.com/blog/vendoring-go-mod-vendor/"
+        },
+        {
+          "passage_id": "G_VEND_002",
+          "content": "tidy removes unused, vendor copies all dependencies for offline builds",
+          "relevance": 5,
+          "url": "https://go.dev/doc/modules/managing-dependencies"
+        },
+        {
+          "passage_id": "G_VEND_003",
+          "content": "Build with vendor using go build -mod=vendor flag for reproducible builds",
+          "relevance": 4,
+          "url": "https://stackoverflow.com/questions/66007082"
+        }
+      ]
+    },
+    {
+      "question_id": "Q15",
+      "question": "Go 怎麼設定 HTTP request timeout？",
+      "passages": [
+        {
+          "passage_id": "G_TO_001",
+          "content": "context.WithTimeout() + http.NewRequestWithContext() for HTTP request timeouts",
+          "relevance": 5,
+          "url": "https://go.dev/blog/context"
+        },
+        {
+          "passage_id": "G_TO_002",
+          "content": "Check ctx.Err() == context.DeadlineExceeded to detect timeout occurrence",
+          "relevance": 5,
+          "url": "https://leapcell.io/blog/mastering-go-context-for-robust-concurrency-patterns"
+        },
+        {
+          "passage_id": "G_TO_003",
+          "content": "defer cancel() to cleanup context and prevent goroutine leaks",
+          "relevance": 4,
+          "url": "https://go.dev/blog/context"
+        }
+      ]
+    },
+    {
+      "question_id": "Q16",
+      "question": "Go HTTP server 怎麼做 graceful shutdown？",
+      "passages": [
+        {
+          "passage_id": "G_GS_001",
+          "content": "signal.NotifyContext() + server.Shutdown() for graceful HTTP server shutdown",
+          "relevance": 5,
+          "url": "https://rafallorenz.com/go/handle-signals-to-graceful-shutdown-http-server/"
+        },
+        {
+          "passage_id": "G_GS_002",
+          "content": "Shutdown with timeout context to wait for in-flight requests to complete",
+          "relevance": 5,
+          "url": "https://victoriametrics.com/blog/go-graceful-shutdown/"
+        },
+        {
+          "passage_id": "G_GS_003",
+          "content": "Handle SIGINT and SIGTERM signals for clean application termination",
+          "relevance": 5,
+          "url": "https://stackoverflow.com/questions/57166480"
+        }
+      ]
+    },
+    {
+      "question_id": "Q17",
+      "question": "Go 的 type assertion 怎麼用？",
+      "passages": [
+        {
+          "passage_id": "G_TA_001",
+          "content": "value, ok := i.(T) comma-ok idiom for safe type assertion without panic",
+          "relevance": 5,
+          "url": "https://www.geeksforgeeks.org/go-language/go-type-assertion-vs-type-switches/"
+        },
+        {
+          "passage_id": "G_TA_002",
+          "content": "Type assertion without ok check panics if type doesn't match",
+          "relevance": 5,
+          "url": "https://leapcell.io/blog/understanding-type-assertion-and-type-switch-in-go"
+        },
+        {
+          "passage_id": "G_TA_003",
+          "content": "Common pattern: check err.(*MyError) for type-specific error handling",
+          "relevance": 4,
+          "url": "https://stackoverflow.com/questions/61060270"
+        }
+      ]
+    },
+    {
+      "question_id": "Q18",
+      "question": "Go 的 type switch 怎麼寫？",
+      "passages": [
+        {
+          "passage_id": "G_TS_001",
+          "content": "switch v := i.(type) { case T: ... } syntax for type switching",
+          "relevance": 5,
+          "url": "https://www.geeksforgeeks.org/go-language/go-type-assertion-vs-type-switches/"
+        },
+        {
+          "passage_id": "G_TS_002",
+          "content": "Default case for unmatched types in type switch",
+          "relevance": 5,
+          "url": "https://leapcell.io/blog/understanding-type-assertion-and-type-switch-in-go"
+        },
+        {
+          "passage_id": "G_TS_003",
+          "content": "Multiple cases can match same type; use fallthrough for case continuation",
+          "relevance": 4,
+          "url": "https://go.dev/ref/spec#Type_switches"
+        }
+      ]
+    },
+    {
+      "question_id": "Q19",
+      "question": "Go 怎麼偵測 race condition？",
+      "passages": [
+        {
+          "passage_id": "G_RACE_001",
+          "content": "go test -race, go run -race main.go for race condition detection",
+          "relevance": 5,
+          "url": "https://go.dev/blog/race-detector"
+        },
+        {
+          "passage_id": "G_RACE_002",
+          "content": "Race detector output shows goroutine numbers and source line causing data race",
+          "relevance": 5,
+          "url": "https://baselrabia.hashnode.dev/race-detector-go-run-race"
+        },
+        {
+          "passage_id": "G_RACE_003",
+          "content": "Use -race flag during development and CI/CD pipelines for concurrent code",
+          "relevance": 4,
+          "url": "https://thinhdanggroup.github.io/golang-race-conditions/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q20",
+      "question": "C# 的 async/await 如何設定 timeout？",
+      "passages": [
+        {
+          "passage_id": "CS_TO_001",
+          "content": "CancellationTokenSource.CancelAfter(timeout) for async operation timeout",
+          "relevance": 5,
+          "url": "https://www.c-sharpcorner.com/article/reusable-approach-to-handling-cancellation-token-logic-timeout/"
+        },
+        {
+          "passage_id": "CS_TO_002",
+          "content": "CancellationToken parameter in async methods to propagate cancellation",
+          "relevance": 5,
+          "url": "https://dev.to/iron-software/-cancellationtoken-the-complete-technical-guide-for-net-developers-1h7p"
+        },
+        {
+          "passage_id": "CS_TO_003",
+          "content": "using (var cts = new CancellationTokenSource(TimeSpan)) pattern for timeout setup",
+          "relevance": 4,
+          "url": "https://weblog.west-wind.com/posts/2024/Jul/25/Back-to-Basics-Await-a-Task-with-a-Timeout"
+        }
+      ]
+    },
+    {
+      "question_id": "Q21",
+      "question": "C# 怎麼取消一個 async Task？",
+      "passages": [
+        {
+          "passage_id": "CS_CT_001",
+          "content": "token.ThrowIfCancellationRequested(), cts.Cancel() to cancel async tasks",
+          "relevance": 5,
+          "url": "https://www.nilebits.com/blog/2024/06/cancellation-tokens-in-csharp/"
+        },
+        {
+          "passage_id": "CS_CT_002",
+          "content": "CancellationToken patterns in async methods for cooperative cancellation",
+          "relevance": 5,
+          "url": "https://www.linkedin.com/pulse/mastering-cancellationtoken-c-professionals-guide-writing-sandeep-pal"
+        },
+        {
+          "passage_id": "CS_CT_003",
+          "content": "Catch OperationCanceledException for graceful cancellation handling",
+          "relevance": 4,
+          "url": "https://stackoverflow.com/questions/10134310"
+        }
+      ]
+    },
+    {
+      "question_id": "Q22",
+      "question": "C# 的 Singleton、Scoped、Transient 差在哪？",
+      "passages": [
+        {
+          "passage_id": "CS_DI_001",
+          "content": "AddSingleton: 1 instance per app lifetime; AddScoped: 1 per request; AddTransient: new each time",
+          "relevance": 5,
+          "url": "https://stackoverflow.com/questions/38138100"
+        },
+        {
+          "passage_id": "CS_DI_002",
+          "content": "Singleton for stateless, cacheable services; Scoped for DbContext; Transient for stateless dependencies",
+          "relevance": 5,
+          "url": "https://dev.to/outdated-dev/understanding-dependency-injection-lifetimes"
+        },
+        {
+          "passage_id": "CS_DI_003",
+          "content": "DI container automatically manages instance creation and disposal based on lifetime",
+          "relevance": 4,
+          "url": "https://learn.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection"
+        }
+      ]
+    },
+    {
+      "question_id": "Q23",
+      "question": "C# DI 的 lifetime 可以互相注入嗎？",
+      "passages": [
+        {
+          "passage_id": "CS_DI_CAP_001",
+          "content": "Captive dependency: Singleton holding Scoped reference prevents proper disposal",
+          "relevance": 5,
+          "url": "https://dev.to/outdated-dev/understanding-dependency-injection-lifetimes"
+        },
+        {
+          "passage_id": "CS_DI_CAP_002",
+          "content": "Safe patterns: Singleton→Singleton OK, Scoped→Scoped OK, Transient→Any OK",
+          "relevance": 5,
+          "url": "https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines"
+        },
+        {
+          "passage_id": "CS_DI_CAP_003",
+          "content": "Solution: Use IServiceProvider in Singleton to create scope for Scoped dependencies",
+          "relevance": 5,
+          "url": "https://stackoverflow.com/questions/38138100"
+        }
+      ]
+    },
+    {
+      "question_id": "Q24",
+      "question": "Kubernetes Pod 怎麼讀取 ConfigMap？",
+      "passages": [
+        {
+          "passage_id": "K_CMREAD_001",
+          "content": "Four consumption methods: environment variables, command-line arguments, volumes, and subPath mounting",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        },
+        {
+          "passage_id": "K_CMREAD_002",
+          "content": "envFrom loads entire ConfigMap as environment variables; env loads specific keys",
+          "relevance": 5,
+          "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/"
+        },
+        {
+          "passage_id": "K_CMREAD_003",
+          "content": "Volume mount for large configs; subPath for specific files within ConfigMap",
+          "relevance": 4,
+          "url": "https://kubernetes.io/docs/concepts/configuration/configmap/"
+        }
+      ]
+    },
+    {
+      "question_id": "Q25",
+      "question": "C++ 中的智能指針有哪幾種？",
+      "passages": [
+        {
+          "passage_id": "CPP_SP_001",
+          "content": "unique_ptr: sole ownership, move semantics; shared_ptr: shared ownership with reference counting",
+          "relevance": 5,
+          "url": "https://en.cppreference.com/w/cpp/memory"
+        },
+        {
+          "passage_id": "CPP_SP_002",
+          "content": "weak_ptr: non-owning reference to shared_ptr, breaks circular dependencies",
+          "relevance": 5,
+          "url": "https://en.cppreference.com/w/cpp/memory/weak_ptr"
+        },
+        {
+          "passage_id": "CPP_SP_003",
+          "content": "auto_ptr deprecated in C++11; prefer unique_ptr and shared_ptr for modern C++",
+          "relevance": 4,
+          "url": "https://en.cppreference.com/w/cpp/memory/auto_ptr"
+        }
+      ]
+    }
+  ]
+}

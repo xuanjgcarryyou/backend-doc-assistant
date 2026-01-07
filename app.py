@@ -9,6 +9,15 @@ from datetime import datetime
 import math
 import pandas as pd
 
+# ===== 載入評估資料集 =====
+# 你需要把 evaluation_dataset.json 放在同一目錄
+try:
+    with open('evaluation_dataset.json', 'r', encoding='utf-8') as f:
+        EVALUATION_DATASET = json.load(f)['evaluation_dataset']
+except FileNotFoundError:
+    st.error("❌ 找不到 evaluation_dataset.json，請確保檔案在同一目錄")
+    st.stop()
+
 
 # ===== 計算 NDCG@5 的函數 =====
 def calculate_ndcg_at_5(scores, ground_truths):
@@ -52,7 +61,7 @@ st.set_page_config(
 )
 
 st.title("🚀 BackendDocAssistant (BDA)")
-st.write("官方文件智能檢索 - 基於 Perplexity Sonar API")
+st.write("官方文件智能檢索 - 基於 Perplexity Sonar API 和 25 題評估資料集")
 
 TECHNOLOGIES = {
     "🐳 Docker": DockerAnswerer,
@@ -63,14 +72,8 @@ TECHNOLOGIES = {
     "☸️ Kubernetes": KubernetesAnswerer,
 }
 
-# 示例問題（用於評估模式）
-EXAMPLE_QUESTIONS = [
-    "Docker Compose 怎麼設定 volume？",
-    "如何在 Docker 中使用 BuildKit？",
-    "Kubernetes Service 和 Deployment 的區別？",
-    "C++ 中的智能指針有哪幾種？",
-    "Go 語言的 goroutine 和線程有什麼區別？",
-]
+# 從資料集提取問題清單
+EVALUATION_QUESTIONS = [item["question"] for item in EVALUATION_DATASET]
 
 # ============ 頁籤選擇 ============
 tab1, tab2, tab3 = st.tabs(["📚 查詢模式", "📊 評估模式 (ML Demo)", "📈 評估統計"])
@@ -128,7 +131,7 @@ with tab1:
                     st.subheader("💬 AI 回答")
                     st.markdown(result["answer"])
 
-                    # 顯示來源（改進版）
+                    # 顯示來源
                     st.markdown("---")
                     st.subheader("📚 參考來源")
 
@@ -145,9 +148,8 @@ with tab1:
                             for url in set(urls_in_answer):
                                 st.markdown(f"- [{url}]({url})")
                         else:
-                            st.info("ℹ️ 未找到參考連結，請參考回答中的官方文件參考")
+                            st.info("ℹ️ 未找到參考連結")
 
-                    # 儲存查詢紀錄（選擇性）
                     if st.checkbox("💾 儲存此次查詢", key="save_query"):
                         save_feedback = st.selectbox(
                             "這個回答有幫助嗎？",
@@ -158,18 +160,20 @@ with tab1:
 
                 except Exception as e:
                     st.error(f"❌ 查詢失敗：{str(e)}")
-                    st.error("請確認：\n1. .env 中有 PPLX_API_KEY\n2. API KEY 有效\n3. 網路連接正常")
 
-# ============ 標籤頁 2：評估模式（ML Demo）============
+# ============ 標籤頁 2：評估模式（用 25 題資料集）============
 with tab2:
-    st.header("📊 Tab 2 - AI 回答評估")
+    st.header("📊 Tab 2 - AI 回答評估（基於 25 題評估資料集）")
+
+    # 顯示資料集資訊
+    st.info(f"📊 使用 **25 題官方評估資料集** 評估您的系統性能")
 
     # 選擇問題
     col1, col2 = st.columns([2, 1])
     with col1:
         selected_eval_question = st.selectbox(
             "選擇一個問題進行評估",
-            options=EXAMPLE_QUESTIONS,
+            options=EVALUATION_QUESTIONS,
             key="eval_question"
         )
 
@@ -177,26 +181,15 @@ with tab2:
         if st.button("🚀 執行評估查詢", key="run_eval"):
             with st.spinner("正在查詢..."):
                 try:
-                    # ✅ 改這裡：用 DockerAnswerer 作示例（你可以改成其他技術）
+                    # 用 DockerAnswerer 作示例
                     answerer = DockerAnswerer()
                     result = answerer.answer(selected_eval_question)
 
-                    # 模擬評估段落（因為 answerer 可能沒有返回這些）
-                    if 'eval_paragraphs' not in result:
-                        result['eval_paragraphs'] = [
-                            {
-                                'content': result['answer'][:200] + "...",
-                                'ground_truth': 5
-                            },
-                            {
-                                'content': "第二個關鍵點的內容",
-                                'ground_truth': 4
-                            },
-                            {
-                                'content': "第三個參考信息",
-                                'ground_truth': 3
-                            }
-                        ]
+                    # 找到對應的資料集項目
+                    for item in EVALUATION_DATASET:
+                        if item["question"] == selected_eval_question:
+                            result['eval_paragraphs'] = item["passages"]
+                            break
 
                     st.session_state.eval_result = result
                     st.success("✅ 查詢成功")
@@ -208,7 +201,7 @@ with tab2:
     if st.session_state.eval_result is not None:
         result = st.session_state.eval_result
 
-        # ===== 新的評估說明 =====
+        # ===== 評估說明 =====
         st.markdown("---")
         st.subheader("📊 評估 AI 的回答 - 幫助模型改進")
 
@@ -245,11 +238,11 @@ AI 給出的回答是否準確、是否按照官方文件的最佳方式回答�
 
         # ===== 顯示官方標準答案說明 =====
         st.markdown("---")
-        st.subheader("📚 官方標準答案（評估標準）")
-        st.write("下面是官方文件中對這個問題的標準答案。請比較 AI 的回答是否涵蓋了這些關鍵點。")
+        st.subheader("📚 官方標準答案（評估標準 - 來自 25 題資料集）")
+        st.write("下面是官方文件中對這個問題的標準答案段落。請比較 AI 的回答是否涵蓋了這些關鍵點。")
         st.markdown("---")
 
-        # ===== 評估段落 =====
+        # ===== 評估段落（來自資料集）=====
         eval_paragraphs = result.get('eval_paragraphs', [])
 
         if not eval_paragraphs:
@@ -258,7 +251,7 @@ AI 給出的回答是否準確、是否按照官方文件的最佳方式回答�
             scores = []
 
             for i, para in enumerate(eval_paragraphs):
-                ground_truth = para.get("ground_truth", 0)
+                ground_truth = para.get("relevance", 0)
 
                 # 顯示官方關鍵點
                 importance_stars = "⭐" * ground_truth if ground_truth > 0 else "○"
@@ -275,6 +268,11 @@ AI 給出的回答是否準確、是否按照官方文件的最佳方式回答�
                 # 顯示官方段落
                 para_content = para.get('content', '')
                 st.markdown(f"**官方說法：**\n{para_content}")
+
+                # 顯示來源
+                para_url = para.get('url', '')
+                if para_url:
+                    st.caption(f"📍 來源：[{para.get('passage_id', '')}]({para_url})")
 
                 # 評分滑塊
                 score = st.slider(
@@ -304,7 +302,7 @@ AI 給出的回答是否準確、是否按照官方文件的最佳方式回答�
             if st.button("🧮 計算 NDCG@5 指標", key="calc_ndcg"):
                 if scores:
                     # 取得官方評分
-                    ground_truths = [para.get("ground_truth", 0) for para in eval_paragraphs]
+                    ground_truths = [para.get("relevance", 0) for para in eval_paragraphs]
 
                     # 計算 NDCG@5
                     ndcg_score = calculate_ndcg_at_5(scores, ground_truths)
@@ -429,12 +427,13 @@ with tab3:
 
         st.info("""
         **機器學習意義**：
-        - 這些評估結果代表我們的檢索系統在標準資料集上的表現。
+        - 這些評估結果代表我們的檢索系統在 25 題標準資料集上的表現。
         - 通過累積這些評估，我們可以：
           1. 追蹤系統性能改進
           2. 發現哪些問題類型表現較差
           3. 優化檢索策略與超參數
           4. 未來用這些資料微調檢索模型
+          5. 建立基準測試（baseline）
         """)
 
     else:
@@ -444,7 +443,7 @@ with tab3:
 st.markdown("---")
 st.markdown(
     "<div style='text-align: center; color: #888; font-size: 0.8rem;'>"
-    "🚀 BackendDocAssistant (BDA) | 基於 Perplexity Sonar API<br>"
+    "🚀 BackendDocAssistant (BDA) | 基於 Perplexity Sonar API + 25 題評估資料集<br>"
     "含機器學習檢索評估與優化功能"
     "</div>",
     unsafe_allow_html=True
