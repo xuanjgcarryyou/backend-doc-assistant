@@ -6,10 +6,8 @@ venv/
 __pycache__/
 *.pyc
 
-# IDE 設定（PyCharm）
 .idea/
 
-# 資料檔案（可以不放上 GitHub）
 docker_docs.csv
 docker.index
 passages.pkl
