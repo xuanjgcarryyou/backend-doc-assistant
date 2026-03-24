@@ -133,6 +133,7 @@ Demo 可用性	100%	可在本地運行，無依賴問題
 引用準確度	≥ 0.90	引用段落確實支持答案
 第三部分：技術設計
 3.1 系統架構
+```
 text
 ┌─────────────────────────────────┐
 │      使用者查詢 (Streamlit UI)   │
@@ -173,6 +174,7 @@ text
 │   - 來源 URL                    │
 │   - 段落內容                    │
 └─────────────────────────────────┘
+```
 3.2 技術棧選擇
 層次	技術選擇	原因
 數據爬蟲	BeautifulSoup4 + Selenium	簡單、快速、無複雜依賴
@@ -358,6 +360,7 @@ Jan 15	Demo 最終檢查 + 文檔完善	可展示的成品
 格式：Word / PDF，可直接打印或提交
 
 交付物 2：代碼倉庫（GitHub）
+```
 text
 backend-doc-assistant/
 ├── README.md                          # 使用說明 + 快速開始
@@ -387,6 +390,7 @@ backend-doc-assistant/
 │   └── test_integration.py           # 端到端測試
 │
 └── demo_queries.txt                   # 示例查詢
+```
 交付物 3：可運行的 Demo
 bash
 # 一鍵運行
